@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="ProductService.Core">
+      <HintPath>..\..\ECommerce.ProductApiSolution\ProductService.Core\obj\Debug\net8.0\ref\ProductService.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

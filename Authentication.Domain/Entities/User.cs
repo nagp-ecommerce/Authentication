@@ -1,10 +1,13 @@
-﻿namespace Authentication.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Authentication.Domain.Entities
 {
     public class User
     {
-        public int Id { get; set; }
-        public string Cart { get; set; }
+        [Key]
+        public int UserId { get; set; }
+        public string CartId { get; set; }
 
-        public List<string> SearchLogs { get; set; }
+        public List<string>? SearchLogs { get; set; }
     }
 }
