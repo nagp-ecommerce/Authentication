@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Authentication.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AuthenticationDbContext))]
-    [Migration("20250206160553_First")]
+    [Migration("20250207103405_First")]
     partial class First
     {
         /// <inheritdoc />
@@ -91,7 +91,7 @@ namespace Authentication.Infrastructure.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Authentication.Domain.Account", b =>

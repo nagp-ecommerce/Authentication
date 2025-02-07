@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Authentication.Domain;
+using Authentication.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Infrastructure.Data
@@ -12,6 +13,7 @@ namespace Authentication.Infrastructure.Data
         : DbContext(options)
     {
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<User> Users { get; set; }
 
     }
 }

@@ -10,7 +10,7 @@ using ProductService.Application.Interfaces;
 
 namespace Authentication.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     [AllowAnonymous]
     public class AuthController : ControllerBase

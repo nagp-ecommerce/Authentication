@@ -88,7 +88,7 @@ namespace Authentication.Infrastructure.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Authentication.Domain.Account", b =>
