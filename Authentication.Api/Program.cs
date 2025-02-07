@@ -12,10 +12,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructureService(builder.Configuration);
 builder.Services.AddScoped<AuthController>();
 
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.SetMinimumLevel(LogLevel.Debug);
-
 
 var app = builder.Build();
 
@@ -28,6 +24,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.AccountInfrastructurePolicy();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

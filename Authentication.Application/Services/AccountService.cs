@@ -13,6 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 
 namespace Authentication.Application.Services
 {
@@ -45,19 +46,19 @@ namespace Authentication.Application.Services
         {
             var key = Encoding.UTF8.GetBytes(config.GetSection("Authentication:Key").Value!);
             var cred = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
-
+            var role = userAccount.Role ?? "User";
             var claims = new List<Claim> { 
                 new(ClaimTypes.Name, userAccount.Name!),
                 new(ClaimTypes.Email, userAccount.Email!),
-                //new(ClaimTypes.Role, userAccount.Role!)
+                new(ClaimTypes.Role, role)
             };
+
             var token = new JwtSecurityToken(
                     issuer: config["Authentication:Issuer"],
                     audience: config["Authentication:Audience"],   
                     claims,
                     expires:null,
                     signingCredentials: cred
-
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
@@ -79,6 +80,7 @@ namespace Authentication.Application.Services
                 AccountStatus = "ACTIVE",
                 CreatedAt = DateTime.UtcNow,
                 LastLoginAt = DateTime.UtcNow,
+                Role=userDto.Role!
             });
             return new Response { Success = true, Message = "User created successfully" };
         }
