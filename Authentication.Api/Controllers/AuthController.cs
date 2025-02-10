@@ -1,7 +1,5 @@
 ﻿using Authentication.Application.DTOs;
 using Authentication.Application.Interfaces;
-using Authentication.Application.Services;
-using Authentication.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductService.Application.Interfaces;
@@ -25,7 +23,7 @@ namespace Authentication.Api.Controllers
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
             var response = await accountService.Register(userDTO);
-            return response.Success ? Ok(response): BadRequest(Request);
+            return response != null ? Ok(response): BadRequest(Request);
         }
 
         [HttpPost("login")]
@@ -33,7 +31,7 @@ namespace Authentication.Api.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var response = await accountService.Login(loginDto);
-            return response.Success ? Ok(response) : BadRequest(Request);
+            return response != null ? Ok(response) : BadRequest(Request);
         }
 
         [HttpPost("update-profile")]
@@ -43,7 +41,7 @@ namespace Authentication.Api.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var updateUserDto = new UpdateUserDTO(user.Password, user.Name, user.Phone);
             var response = await accountService.UpdateProfile(user.Email, updateUserDto);
-            return response.Success ? Ok(response) : BadRequest(Request);
+            return response != null ? Ok(response) : BadRequest(Request);
         }
 
     }

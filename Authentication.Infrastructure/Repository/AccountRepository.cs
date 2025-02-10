@@ -28,7 +28,7 @@ namespace Authentication.Infrastructure.Repository
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error occured while creating the Account");
-                return new Response { Success = false, Message = "Error occured while creating the Account" };
+                return new Response { Success = false, Message = $"Error occured while creating the Account {ex.Message}" };
             }
 
         }
@@ -48,7 +48,7 @@ namespace Authentication.Infrastructure.Repository
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error occured while deleting the Account");
-                return new Response { Success = false, Message = "Error occured while deleting the Account" };
+                return new Response { Success = false, Message = $"Error occured while deleting the Account {ex.Message}" };
             }
         }
 
@@ -67,7 +67,7 @@ namespace Authentication.Infrastructure.Repository
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error occured while updating the Account");
-                return new Response { Success = false, Message = "Error occured while updating the Account" };
+                return new Response { Success = false, Message = $"Error occured while updating the Account {ex.Message}" };
             }
         }
 

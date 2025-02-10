@@ -1,9 +1,10 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
 using ProductService.Application.Interfaces;
 
 namespace Authentication.Application.Interfaces
 {
-    public interface IAccountRepository<T> where T : class
+    public interface IUserRepository<T> where T : class
     {
         public Task<Response> CreateAsync(T Entity);
         // adding a new entity to the database
@@ -13,13 +14,6 @@ namespace Authentication.Application.Interfaces
         // Deletes an existing entity in database
         public Task<IEnumerable<T>> GetAllAsync();
         // Retrieves all entities from database
-        public Task<T> GetAsync(Expression<Func<T, bool>> predicate);
-        // to query data asynchronously based on a condition or filter
-
-        public Task<T> GetByIdAsync(int id);
-        // Retrieve by Id
-
-        public Task<T> GetByUserEmail(string email);
 
     }
 }

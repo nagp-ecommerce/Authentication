@@ -1,6 +1,7 @@
 ﻿using Authentication.Application.Interfaces;
 using Authentication.Application.Services;
 using Authentication.Domain;
+using Authentication.Domain.Entities;
 using Authentication.Infrastructure.Data;
 using Authentication.Infrastructure.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +19,7 @@ namespace Authentication.Infrastructure.DI
         {
             SharedServicesContainer.AddSharedServices<AuthenticationDbContext>(services, configuration);
             services.AddScoped<IAccountRepository<Account>, AccountRepository>();
+            services.AddScoped<IUserRepository<User>, UserRepository>();
             services.AddScoped<IAccountService, AccountService>();
             return services; 
         }

@@ -14,16 +14,23 @@ using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
+using Authentication.Domain.Entities;
 
 namespace Authentication.Application.Services
 {
     public class AccountService : IAccountService
     {
         private IAccountRepository<Account> accountRepository;
+        private IUserRepository<User> userRepository;
         private IConfiguration config;
-        public AccountService(IAccountRepository<Account> _accountRepository, IConfiguration _config)
+        public AccountService(
+            IAccountRepository<Account> _accountRepository,
+            IConfiguration _config,
+            IUserRepository<User>  _userRepository
+           )
         {
             accountRepository = _accountRepository;
+            userRepository = _userRepository;
             config = _config;
         }
         public async Task<Response> Login(LoginDTO login)
@@ -57,7 +64,7 @@ namespace Authentication.Application.Services
                     issuer: config["Authentication:Issuer"],
                     audience: config["Authentication:Audience"],   
                     claims,
-                    expires:null,
+                    expires: DateTime.UtcNow.AddHours(3),
                     signingCredentials: cred
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -71,7 +78,8 @@ namespace Authentication.Application.Services
                 return new Response { Success = false, Message = "User already exist" };
                 throw new Exception("User already exists");
             }
-            await accountRepository.CreateAsync(new Account
+
+            var account = new Account
             {
                 Name = userDto.Name,
                 Email = userDto.Email,
@@ -80,9 +88,25 @@ namespace Authentication.Application.Services
                 AccountStatus = "ACTIVE",
                 CreatedAt = DateTime.UtcNow,
                 LastLoginAt = DateTime.UtcNow,
-                Role=userDto.Role!
+                Role = userDto.Role ?? "User"
+            };
+
+            var userCreatedResponse = await userRepository.CreateAsync(new User()
+            {
+                //UserId = (int)Convert.ToInt64(userDto.Phone),
+                Account = account,
+                CartId = "",
+                SearchLogs = new List<string>()
             });
-            return new Response { Success = true, Message = "User created successfully" };
+
+            if (userCreatedResponse.Success)
+            {
+                var response = await accountRepository.CreateAsync(account);
+                return response;
+            }
+            else {
+                return userCreatedResponse!;
+            }
         }
 
 
@@ -108,8 +132,8 @@ namespace Authentication.Application.Services
             {
                 userAccount.Password = BCrypt.Net.BCrypt.HashPassword(user.Password); 
             }
-            await accountRepository.UpdateAsync(userAccount);
-            return new Response { Success = true, Message = "User updated successfully" };
+            var response = await accountRepository.UpdateAsync(userAccount);
+            return response;
         }
     }
 }
