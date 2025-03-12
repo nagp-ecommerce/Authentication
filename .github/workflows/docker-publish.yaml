@@ -48,7 +48,7 @@ jobs:
       - name: Deploy updated task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ecomauthTaskDefinition.json
+          task-definition: ecomAuthTaskDefinition.json
           service: ecom-auth-service
           cluster: NagpDevCluster
           wait-for-service-stability: true
