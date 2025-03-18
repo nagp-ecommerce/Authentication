@@ -32,4 +32,4 @@ RUN dotnet publish "./Authentication.Api.csproj" -c %BUILD_CONFIGURATION% -o /ap
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Authentication.Api.dll"]
+ENTRYPOINT ["sh", "-c", "echo DB_CONNECTION=$DB_CONNECTION && dotnet ef database update && dotnet Authentication.Api.dll"]
